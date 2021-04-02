@@ -1,8 +1,10 @@
-package com.example.myapplication;
+package edu.uncw.seahawkmarket;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import edu.uncw.seahawkmarket.R;
 
 public class MainActivity extends AppCompatActivity {
 
