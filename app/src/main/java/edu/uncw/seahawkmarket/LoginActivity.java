@@ -36,9 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.enterPassword);
 
         //Add toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
 
     //Check that email and password are valid
     private boolean validateForm() {

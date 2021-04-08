@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         auth = FirebaseAuth.getInstance();
+
+        //Get the intent and userEmail info
+        Intent intent = getIntent();
+        String email = (String) intent.getExtras().get(userEmail);
+
+        //Modify the mainActivity welcome message
+        TextView welcomeMessage = findViewById(R.id.welcomeMessage);
+        String welcomeText = "Hi, " + email;
+        welcomeMessage.setText(welcomeText);
+
     }
 
     public void signOut(View view) {
