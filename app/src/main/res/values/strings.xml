@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Seahawk Market</string>
     <string name="login_label">Login</string>
+    <string name="logout_label">Logout</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="email_label">Email:</string>
     <string name="password_label">Password:</string>
+    <string name="welcome_message">Hi, </string>
 </resources>
