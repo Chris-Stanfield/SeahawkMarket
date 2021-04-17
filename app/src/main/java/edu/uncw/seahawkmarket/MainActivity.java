@@ -41,4 +41,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
+    public void createListing(View view){
+        Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
+        startActivity(intent);
+
+    }
 }
