@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 
 
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder>{
-    //Hold the captions and image resource id's
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<Float> prices;
+    private static final String TAG = "CaptionedImagesAdapter";
     private Listener listener;
 
     interface Listener {
@@ -35,14 +36,16 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         }
     }
 
-    public CaptionedImagesAdapter (ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<Float> prices){ //This info is passed in mainActivity in constructor
+    public CaptionedImagesAdapter (ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<Float> prices){ //This info is passed in mainActivity
         this.titles = titles;
+        Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
         this.prices = prices;
     }
 
     @Override
     public int getItemCount(){ //The number of data items
+        Log.d(TAG, "Size of titles = " + titles.size());
         return titles.size();
     }
 
@@ -61,11 +64,10 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position){
         CardView cardView = holder.cardView;
-        //Use to display image of item. Not implemented yet.
-//      ImageView imageView = (ImageView)cardView.findViewById(R.id.info_image);
-//      Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imageIds[position]); //Display image in image view
-//      imageView.setImageDrawable(drawable);
-//      imageView.setContentDescription(captions[position]);
+        ImageView imageView = (ImageView)cardView.findViewById(R.id.itemImage);
+        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), R.drawable.default_cardview_image); //Display image in image view
+        imageView.setImageDrawable(drawable);
+        imageView.setContentDescription(titles.get(position));
 
         TextView textView = (TextView)cardView.findViewById(R.id.itemTitle);
         textView.setText(titles.get(position)); //Populate the CardView's title view
@@ -79,7 +81,5 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
                 }
             }
         });
-
-
     }
 }

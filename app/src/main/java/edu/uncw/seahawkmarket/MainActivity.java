@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore dB = FirebaseFirestore.getInstance();
     private static final String TAG = "MainActivity";
+    private ArrayList<String> titles;
+    private ArrayList<String> descriptions;
+    private ArrayList<Float> prices;
 
     public MainActivity() {
     }
@@ -36,32 +39,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         auth = FirebaseAuth.getInstance();
 
         //Get reference to recycler view in main layout
         RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
 
-        //Create array lists with itemsForSale info from database
-
-
-        final ArrayList<String> titles = new ArrayList<String>();
-        final ArrayList<String> descriptions = new ArrayList<String>();
-        final ArrayList<Float> prices = new ArrayList<Float>();
+        //Create array lists with itemsForSale info from database, get data from database
+        titles = new ArrayList<String>();
+        descriptions = new ArrayList<String>();
+        prices = new ArrayList<Float>();
         Log.d(TAG, "Array Lists created");
 
         dB.collection("Items for sale").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.d(TAG, "Successfully accessed collection!");
                         for (QueryDocumentSnapshot document: queryDocumentSnapshots){
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
-                            //Append the item info to the appropriate array list
+                            Log.d(TAG, "Document item = " + item);
+                            //Add the item info to the appropriate array list
                             titles.add(item.getTitle());
+                            Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             descriptions.add(item.getDescription());
                             prices.add(item.getPrice());
                         }
+                        Log.d(TAG, "Size of titles array list = " + titles.size());
+                        Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
+                        Log.d(TAG, "Size of prices array list = " + prices.size());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -71,17 +77,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        //Pass newly made array lists to card adapter
+        //Pass the newly created arrays to the adapter made for the card views
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices);
         mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
-        Log.d(TAG, "Array Lists passed to adapter");
 
-        //Set layout manager as grid and set mainRecycler
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mainRecycler.setLayoutManager(layoutManager);
-        Log.d(TAG, "Layout manager set as grid, mainRecycler set");
 
-        //Set the listener that class the appropriate activity when a card view is clicked in recycler
         adapter.setListener(new CaptionedImagesAdapter.Listener() {
             public void onClick(int position) {
                 Intent intent = new Intent(MainActivity.this, testActivity.class);
@@ -99,6 +101,5 @@ public class MainActivity extends AppCompatActivity {
     public void createListing(View view){
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
-
     }
 }
