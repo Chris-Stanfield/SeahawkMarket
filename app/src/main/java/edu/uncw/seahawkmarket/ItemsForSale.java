@@ -12,6 +12,7 @@ public class ItemsForSale {
         this.title = title;
         this.description = description;
         this.price = price;
+//        this.created = firebase.firestore.FieldValue.serverTimestamp()
     }
 
     public String getTitle() {

@@ -132,4 +132,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void launchMain(View view){
+        //Use this to not have to login in each time
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
