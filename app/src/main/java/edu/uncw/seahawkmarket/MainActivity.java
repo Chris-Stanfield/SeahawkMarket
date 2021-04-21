@@ -3,6 +3,8 @@ package edu.uncw.seahawkmarket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    //TODO: Order cards by timestamp
+
     public static final String userEmail = "";
     private FirebaseAuth auth;
     private FirebaseFirestore dB = FirebaseFirestore.getInstance();
@@ -95,5 +100,23 @@ public class MainActivity extends AppCompatActivity {
     public void createListing(View view){
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the app bar.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            //Code to run when the about item is clicked
+            case R.id.action_profile:
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
