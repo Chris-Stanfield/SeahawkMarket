@@ -31,9 +31,8 @@ public class CreateListingActivity extends AppCompatActivity {
 
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
-        String priceString = itemPrice.getText().toString();
-        String price = priceString;
-        if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()) {
+        String price = itemPrice.getText().toString();
+        if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()) {       // title, description, and price must not be empty to make an item object.
             ItemsForSale item = new ItemsForSale(title, description, price);
             Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice());
             mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -52,19 +51,19 @@ public class CreateListingActivity extends AppCompatActivity {
                     });
         }
         else{
-            if(title.isEmpty()&&description.isEmpty()&&price.isEmpty()) {
+            if(title.isEmpty()&&description.isEmpty()&&price.isEmpty()) {      // conditional statements for detailed user feedback on why item was not added for sell.
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name, Description, and Price", Toast.LENGTH_SHORT).show();
-            } else if (title.isEmpty()&&description.isEmpty()&&!price.isEmpty()){
+            } else if (title.isEmpty() && description.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name and Description", Toast.LENGTH_SHORT).show();
-            } else if (title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()){
+            } else if (title.isEmpty() && !price.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name", Toast.LENGTH_SHORT).show();
-            } else if (title.isEmpty()&&!description.isEmpty()&&price.isEmpty()){
+            } else if (title.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name and Price", Toast.LENGTH_SHORT).show();
-            }  else if (!title.isEmpty()&&description.isEmpty()&&price.isEmpty()){
+            }  else if (description.isEmpty() && price.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Description and Price", Toast.LENGTH_SHORT).show();
-            } else if (!title.isEmpty()&&description.isEmpty()&&!price.isEmpty()){
+            } else if (description.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Description", Toast.LENGTH_SHORT).show();
-            } else if (!title.isEmpty()&&!description.isEmpty()&&price.isEmpty()){
+            } else {
                 Toast.makeText(CreateListingActivity.this, "Missing information for Price", Toast.LENGTH_SHORT).show();
             }
         }
