@@ -31,8 +31,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
-        String priceString = itemPrice.getText().toString();
-        Float price = Float.parseFloat(priceString);
+        String price = itemPrice.getText().toString();
 
         ItemsForSale item = new ItemsForSale(title, description, price);
         Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice());

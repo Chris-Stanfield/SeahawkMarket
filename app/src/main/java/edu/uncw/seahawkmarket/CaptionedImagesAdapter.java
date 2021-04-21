@@ -18,7 +18,7 @@ import java.util.ArrayList;
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
-    private ArrayList<Float> prices;
+    private ArrayList<String> prices;
     private static final String TAG = "CaptionedImagesAdapter";
     private Listener listener;
 
@@ -35,7 +35,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         }
     }
 
-    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<Float> prices) { //This info is passed in mainActivity
+    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices) { //This info is passed in mainActivity
         this.titles = titles;
         Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
