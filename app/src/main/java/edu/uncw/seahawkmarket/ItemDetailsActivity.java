@@ -11,7 +11,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     private static final String TAG = "ItemDetailsActivity";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
-    public static final Float PRICE = 0.0f;
+    public static final String PRICE = "0.0f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +27,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String price = (String) intent.getExtras().get(String.valueOf(PRICE));
 
         //Change the text in text views to reflect this item data
-        TextView titleTextView = findViewById(R.id.itemTitle);
-        TextView descriptionTextView = findViewById(R.id.itemDesciption);
-        TextView priceTextView = findViewById(R.id.itemPrice);
+        TextView titleTextView = findViewById(R.id.itemDetailTitle);
+        TextView descriptionTextView = findViewById(R.id.itemDetailDescription);
+        TextView priceTextView = findViewById(R.id.itemDetailPrice);
 
         titleTextView.setText(title);
         descriptionTextView.setText(description);

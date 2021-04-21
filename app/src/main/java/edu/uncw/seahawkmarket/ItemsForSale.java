@@ -3,12 +3,12 @@ package edu.uncw.seahawkmarket;
 public class ItemsForSale {
     private String title;
     private String description;
-    private Float price;
+    private String price;
 
     public ItemsForSale() {
     }
 
-    public ItemsForSale(String title, String description, Float price) {
+    public ItemsForSale(String title, String description, String price) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -31,11 +31,11 @@ public class ItemsForSale {
         this.description = description;
     }
 
-    public Float getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }

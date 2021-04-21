@@ -7,7 +7,7 @@
     tools:context=".ItemDetailsActivity">
 
     <ImageView
-        android:id="@+id/itemImage"
+        android:id="@+id/itemDetailImage"
         android:layout_width="290dp"
         android:layout_height="262dp"
         android:layout_marginTop="52dp"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/default_cardview_image" />
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/itemDetailTitle"
         android:layout_width="290dp"
         android:layout_height="55dp"
         android:layout_marginTop="92dp"
@@ -26,21 +26,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
 
     <TextView
-        android:id="@+id/itemPrice"
+        android:id="@+id/itemDetailPrice"
         android:layout_width="290dp"
         android:layout_height="55dp"
         android:text="@string/item_price"
-        app:layout_constraintBottom_toTopOf="@+id/itemTitle"
+        app:layout_constraintBottom_toTopOf="@+id/itemDetailTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
 
     <TextView
-        android:id="@+id/itemDescription"
+        android:id="@+id/itemDetailDescription"
         android:layout_width="290dp"
         android:layout_height="230dp"
         android:text="@string/Item_description"
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailTitle"
         app:layout_constraintVertical_bias="0.425" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

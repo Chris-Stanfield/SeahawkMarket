@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
-    private ArrayList<Float> prices;
+    private ArrayList<String> prices;
     public MainActivity() {
     }
     @Override
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //Create array lists with itemsForSale info from database, get data from database
         titles = new ArrayList<String>();
         descriptions = new ArrayList<String>();
-        prices = new ArrayList<Float>();
+        prices = new ArrayList<String>();
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
-                intent.putExtra(String.valueOf(ItemDetailsActivity.PRICE), prices.get(position));
+                intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
                 startActivity(intent);
             }
         });
