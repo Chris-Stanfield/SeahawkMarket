@@ -63,12 +63,12 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.itemImage);
+        ImageView imageView = (ImageView) cardView.findViewById(R.id.itemDetailImage);
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), R.drawable.default_cardview_image); //Display image in image view
         imageView.setImageDrawable(drawable);
         imageView.setContentDescription(titles.get(position));
 
-        TextView textView = (TextView) cardView.findViewById(R.id.itemTitle);
+        TextView textView = (TextView) cardView.findViewById(R.id.itemDetailTitle);
         textView.setText(titles.get(position)); //Populate the CardView's title view
 
         //Add the listener to the card view

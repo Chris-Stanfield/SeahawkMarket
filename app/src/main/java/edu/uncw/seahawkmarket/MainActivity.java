@@ -20,7 +20,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     public static final String userEmail = "";
     private FirebaseAuth auth;
     private FirebaseFirestore dB = FirebaseFirestore.getInstance();
@@ -28,32 +27,44 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
-
     public MainActivity() {
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         auth = FirebaseAuth.getInstance();
-
         //Get reference to recycler view in main layout
         RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
-
         //Create array lists with itemsForSale info from database, get data from database
         titles = new ArrayList<String>();
         descriptions = new ArrayList<String>();
         prices = new ArrayList<String>();
         Log.d(TAG, "Array Lists created");
 
+        //Pass the newly created arrays to the adapter made for the card views
+        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices);
+        mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        mainRecycler.setLayoutManager(layoutManager);
+
+        //Set the listener that says what to do if a card is clicked
+        adapter.setListener(new CaptionedImagesAdapter.Listener() {
+            public void onClick(int position) {
+                Log.d(TAG, "Card selected. Item = " + titles.get(position));
+                Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
+                intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
+                intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
+                intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
+                startActivity(intent);
+            }
+        });
         dB.collection("Items for sale").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Log.d(TAG, "Successfully accessed collection!");
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document: queryDocumentSnapshots){
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
                             Log.d(TAG, "Document item = " + item);
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Size of titles array list = " + titles.size());
                         Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
                         Log.d(TAG, "Size of prices array list = " + prices.size());
+                        adapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -74,29 +86,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Failure iterating through database to get item info!");
                     }
                 });
-
-        //Pass the newly created arrays to the adapter made for the card views
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices);
-        mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        mainRecycler.setLayoutManager(layoutManager);
-
-        adapter.setListener(new CaptionedImagesAdapter.Listener() {
-            public void onClick(int position) {
-                Intent intent = new Intent(MainActivity.this, testActivity.class);
-                startActivity(intent);
-            }
-        });
     }
-
     public void signOut(View view) {
         auth.signOut();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
-
-    public void createListing(View view) {
+    public void createListing(View view){
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
     }

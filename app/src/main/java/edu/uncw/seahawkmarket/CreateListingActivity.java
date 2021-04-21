@@ -27,11 +27,12 @@ public class CreateListingActivity extends AppCompatActivity {
     public void listItem(View view) {
         EditText itemName = findViewById(R.id.ItemName);
         EditText itemDescription = findViewById(R.id.itemDesciption);
-        EditText itemPrice = findViewById(R.id.itemPrice);
+        EditText itemPrice = findViewById(R.id.itemDetailPrice);
 
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
-        String price = itemPrice.getText().toString();
+        String priceString = itemPrice.getText().toString();
+        String price = priceString;
 
         ItemsForSale item = new ItemsForSale(title, description, price);
         Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice());
