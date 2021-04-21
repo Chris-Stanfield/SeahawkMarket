@@ -1,13 +1,13 @@
 package edu.uncw.seahawkmarket;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,7 +24,7 @@ public class CreateListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_listing);
     }
 
-    public void listItem(View view){
+    public void listItem(View view) {
         EditText itemName = findViewById(R.id.ItemName);
         EditText itemDescription = findViewById(R.id.itemDesciption);
         EditText itemPrice = findViewById(R.id.itemPrice);
@@ -39,17 +39,17 @@ public class CreateListingActivity extends AppCompatActivity {
         mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG,"Item added for sale successfully");
+                Log.d(TAG, "Item added for sale successfully");
                 Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_SHORT).show();
             }
         })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG,"Item not added");
-                Toast.makeText(CreateListingActivity.this, "Could not add item for sell.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Item not added");
+                        Toast.makeText(CreateListingActivity.this, "Could not add item for sell.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 }

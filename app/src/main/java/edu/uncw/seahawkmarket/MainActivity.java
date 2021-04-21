@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Log.d(TAG, "Successfully accessed collection!");
-                        for (QueryDocumentSnapshot document: queryDocumentSnapshots){
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
                             Log.d(TAG, "Document item = " + item);
@@ -98,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void createListing(View view){
+    public void createListing(View view) {
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
     }

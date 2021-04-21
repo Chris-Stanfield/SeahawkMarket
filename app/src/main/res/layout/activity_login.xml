@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.54" />
 
-<!--    This button is just for quick testing and will be removed. -->
+    <!--    This button is just for quick testing and will be removed. -->
     <Button
         android:id="@+id/launchMain"
         android:layout_width="wrap_content"
