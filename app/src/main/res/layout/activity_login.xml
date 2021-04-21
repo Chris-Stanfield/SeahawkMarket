@@ -11,6 +11,13 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_main" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/clocktower"
+        android:scaleType="fitXY"
+        />
+
     <EditText
         android:id="@+id/enterEmail"
         android:layout_width="wrap_content"
@@ -65,10 +72,10 @@
         android:id="@+id/loginButton"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:text="@string/login_label"
         android:background="@color/colorPrimary"
-        android:textColor="@color/white"
         android:onClick="signIn"
+        android:text="@string/login_label"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,10 +86,10 @@
         android:id="@+id/signUpButton"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:text="@string/sign_up_label"
-        android:onClick="createAccount"
-        android:textColor="@color/white"
         android:background="@color/colorPrimaryDark"
+        android:onClick="createAccount"
+        android:text="@string/sign_up_label"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
