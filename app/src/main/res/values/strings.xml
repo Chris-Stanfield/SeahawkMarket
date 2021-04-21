@@ -6,4 +6,8 @@
     <string name="email_label">Email:</string>
     <string name="password_label">Password:</string>
     <string name="welcome_message">Hi, </string>
+    <string name="Item_name">Name of item</string>
+    <string name="Item_description">Description of item</string>
+    <string name="item_price">Price of item</string>
+    <string name="submit">List item</string>
 </resources>
