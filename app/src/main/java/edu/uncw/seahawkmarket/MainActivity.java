@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
     private ArrayList<String> users;
-    public MainActivity() {
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         dB.collection("Items for sale").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -84,12 +84,13 @@ public class MainActivity extends AppCompatActivity {
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
                             Log.d(TAG, "Document item = " + item);
+
                             //Add the item info to the appropriate array list
                             titles.add(item.getTitle());
-                            Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             descriptions.add(item.getDescription());
                             prices.add(item.getPrice());
                             users.add(item.getUser());
+                            Log.d(TAG, "Item title: " + item.getTitle() + " added");
                         }
                         Log.d(TAG, "Size of titles array list = " + titles.size());
                         Log.d(TAG, "Size of descriptions array list = " + descriptions.size());

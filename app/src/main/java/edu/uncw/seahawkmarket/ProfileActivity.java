@@ -82,15 +82,17 @@ public class ProfileActivity extends AppCompatActivity {
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
                             Log.d(TAG, "Document item = " + item);
+                            Log.d(TAG, "Item email = " + item.getUser() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
-                            if(item.getUser() == auth.getCurrentUser().getEmail()){
+                            if(item.getUser().replaceAll("\n","") == auth.getCurrentUser().getEmail().replaceAll("\n","")){
+                                Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());
-                                Log.d(TAG, "Item title: " + item.getTitle() + " added");
                                 descriptions.add(item.getDescription());
                                 prices.add(item.getPrice());
                                 users.add(item.getUser());
+                                Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
                         Log.d(TAG, "Size of titles array list = " + titles.size());
