@@ -32,19 +32,24 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
+    private ArrayList<String> emails;
     public MainActivity() {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         auth = FirebaseAuth.getInstance();
+
         //Get reference to recycler view in main layout
         RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
+
         //Create array lists with itemsForSale info from database, get data from database
         titles = new ArrayList<String>();
         descriptions = new ArrayList<String>();
         prices = new ArrayList<String>();
+        emails = new ArrayList<String>();
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
                 intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
+                intent.putExtra(ItemDetailsActivity.EMAIL, prices.get(position));
                 startActivity(intent);
             }
         });
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             descriptions.add(item.getDescription());
                             prices.add(item.getPrice());
+                            emails.add(item.getEmail());
                         }
                         Log.d(TAG, "Size of titles array list = " + titles.size());
                         Log.d(TAG, "Size of descriptions array list = " + descriptions.size());

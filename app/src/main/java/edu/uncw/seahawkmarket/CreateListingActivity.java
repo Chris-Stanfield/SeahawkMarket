@@ -7,21 +7,35 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CreateListingActivity extends AppCompatActivity {
     private static final String TAG = "CreateListingActivity";
+    private FirebaseAuth auth;
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
+    private String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listing);
+
+        auth = FirebaseAuth.getInstance();
+        currentUserEmail = auth.getCurrentUser().getEmail();
+
+        //Set up toolbar and enable up button
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void listItem(View view) {
@@ -34,7 +48,7 @@ public class CreateListingActivity extends AppCompatActivity {
         String priceString = itemPrice.getText().toString();
         String price = priceString;
         if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()) {
-            ItemsForSale item = new ItemsForSale(title, description, price);
+            ItemsForSale item = new ItemsForSale(title, description, price, currentUserEmail);
             Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice());
             mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override

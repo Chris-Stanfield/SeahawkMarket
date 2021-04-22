@@ -12,6 +12,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "0.0f";
+    public static final String EMAIL = "currentUserEmail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

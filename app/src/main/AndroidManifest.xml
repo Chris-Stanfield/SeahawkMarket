@@ -11,7 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ItemDetailsActivity"></activity>
         <activity android:name=".testActivity" />
-        <activity android:name=".CreateListingActivity" />
+        <activity android:name=".CreateListingActivity">
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

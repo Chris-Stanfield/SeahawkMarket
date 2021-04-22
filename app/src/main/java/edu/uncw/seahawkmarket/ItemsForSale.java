@@ -6,15 +6,17 @@ public class ItemsForSale {
     private String title;
     private String description;
     private String price;
+    private String email;
 
     public ItemsForSale() {
     }
 
-    public ItemsForSale(String title, String description, String price) {
+    public ItemsForSale(String title, String description, String price, String currentUserEmail) {
         this.title = title;
         this.description = description;
         this.price = price;
-//        this.created = firebase.firestore.FieldValue.serverTimestamp()
+        this.email = currentUserEmail;
+
     }
 
     public String getTitle() {
@@ -40,4 +42,8 @@ public class ItemsForSale {
     public void setPrice(String price) {
         this.price = price;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 }
