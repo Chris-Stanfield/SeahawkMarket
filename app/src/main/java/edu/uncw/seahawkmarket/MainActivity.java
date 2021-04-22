@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
-    private ArrayList<String> emails;
+    private ArrayList<String> users;
     public MainActivity() {
     }
     @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         titles = new ArrayList<String>();
         descriptions = new ArrayList<String>();
         prices = new ArrayList<String>();
-        emails = new ArrayList<String>();
+        users = new ArrayList<String>();
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
                 intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
-                intent.putExtra(ItemDetailsActivity.EMAIL, prices.get(position));
+                intent.putExtra(ItemDetailsActivity.USER, users.get(position));
                 startActivity(intent);
             }
         });

@@ -11,8 +11,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
     private static final String TAG = "ItemDetailsActivity";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
-    public static final String PRICE = "0.0f";
-    public static final String EMAIL = "currentUserEmail";
+    public static final String PRICE = "$0.0f";
+    public static final String USER = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +26,17 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String title = (String) intent.getExtras().get(TITLE);
         String description = (String) intent.getExtras().get(DESCRIPTION);
         String price = (String) intent.getExtras().get(String.valueOf(PRICE));
+        String user = (String) intent.getExtras().get(USER);
 
         //Change the text in text views to reflect this item data
         TextView titleTextView = findViewById(R.id.itemDetailTitle);
         TextView descriptionTextView = findViewById(R.id.itemDetailDescription);
         TextView priceTextView = findViewById(R.id.itemDetailPrice);
+        TextView userTextView = findViewById(R.id.userDetail);
 
         titleTextView.setText(title);
         descriptionTextView.setText(description);
         priceTextView.setText(price);
+        userTextView.setText(user);
     }
 }

@@ -6,17 +6,17 @@ public class ItemsForSale {
     private String title;
     private String description;
     private String price;
-    private String email;
+    private String user;
 
     public ItemsForSale() {
     }
 
-    public ItemsForSale(String title, String description, String price, String currentUserEmail) {
+    public ItemsForSale(String title, String description, String price, String user) {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.email = currentUserEmail;
-
+        this.user = user;
+//        this.created = firebase.firestore.FieldValue.serverTimestamp()
     }
 
     public String getTitle() {
@@ -39,11 +39,11 @@ public class ItemsForSale {
         return price;
     }
 
+    public String getUser() {
+        return user;
+    }
+
     public void setPrice(String price) {
         this.price = price;
     }
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
 }
