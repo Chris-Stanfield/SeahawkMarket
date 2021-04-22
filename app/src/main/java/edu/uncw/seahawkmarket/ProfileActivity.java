@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +31,8 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<String> prices;
     private ArrayList<String> users;
 
+    //TODO: Add look out menu option in this activity
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         auth = FirebaseAuth.getInstance();
+
+        //Set email in text view
+        TextView emailTextView = findViewById(R.id.profileEmail);
+        emailTextView.setText(auth.getCurrentUser().getEmail());
 
         //Get reference to recycler view in main layout
         RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
@@ -85,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Log.d(TAG, "Item email = " + item.getUser() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
-                            if(item.getUser().replaceAll("\n","") == auth.getCurrentUser().getEmail().replaceAll("\n","")){
+                            if(item.getUser().replaceAll("\n","").equals(auth.getCurrentUser().getEmail().replaceAll("\n",""))){
                                 Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());
