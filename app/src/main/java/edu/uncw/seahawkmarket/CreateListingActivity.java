@@ -23,6 +23,8 @@ public class CreateListingActivity extends AppCompatActivity {
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
     private String currentUserEmail;
 
+    //TODO: Recycler needs to update after an item is added.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 public void onSuccess(DocumentReference documentReference) {
                     Log.d(TAG, "Item added for sale successfully");
                     Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_SHORT).show();
+
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {

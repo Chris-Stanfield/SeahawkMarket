@@ -6,13 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ItemDetailsActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_main" />
+
     <ImageView
         android:id="@+id/itemDetailImage"
         android:layout_width="290dp"
         android:layout_height="262dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/default_cardview_image" />
@@ -21,58 +25,45 @@
         android:id="@+id/itemDetailTitle"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:text="@string/Item_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
 
     <TextView
         android:id="@+id/itemDetailPrice"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:text="@string/item_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailTitle" />
 
     <TextView
         android:id="@+id/itemDetailDescription"
         android:layout_width="290dp"
-        android:layout_height="170dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
         android:text="@string/Item_description"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemDetailPrice"
-        app:layout_constraintVertical_bias="0.509" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailPrice" />
 
     <TextView
-        android:id="@+id/itemEmail"
+        android:id="@+id/itemDetailEmail"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="@string/email_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemDetailTitle"
-        app:layout_constraintVertical_bias="0.15" />
-
-    <TextView
-        android:id="@+id/userDetail"
-        android:layout_width="293dp"
-        android:layout_height="40dp"
-        android:text="@string/user"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailDescription" />
 
-        app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

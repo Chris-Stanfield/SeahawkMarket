@@ -9,11 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ItemDetailsActivity"></activity>
-        <activity android:name=".testActivity" />
-        <activity android:name=".CreateListingActivity">
+        <activity android:name=".ProfileActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".ItemDetailsActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".CreateListingActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

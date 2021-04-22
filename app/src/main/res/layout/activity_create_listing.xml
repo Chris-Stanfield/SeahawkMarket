@@ -10,7 +10,6 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar_main" />
 
-
     <EditText
         android:id="@+id/ItemName"
         android:layout_width="wrap_content"

@@ -1,17 +1,15 @@
 package edu.uncw.seahawkmarket;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,28 +20,26 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
-    //TODO: Order cards by timestamp
-
-    public static final String userEmail = "";
     private FirebaseAuth auth;
     private FirebaseFirestore dB = FirebaseFirestore.getInstance();
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "ProfileActivity";
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
     private ArrayList<String> users;
-    public MainActivity() {
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
 
         //Set up toolbar and enable up button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         auth = FirebaseAuth.getInstance();
 
@@ -67,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setListener(new CaptionedImagesAdapter.Listener() {
             public void onClick(int position) {
                 Log.d(TAG, "Card selected. Item = " + titles.get(position));
-                Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, ItemDetailsActivity.class);
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
                 intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
@@ -75,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Get data from database specific to current user
         dB.collection("Items for sale").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -84,12 +82,16 @@ public class MainActivity extends AppCompatActivity {
                             //Create an item object with the document
                             ItemsForSale item = document.toObject(ItemsForSale.class);
                             Log.d(TAG, "Document item = " + item);
-                            //Add the item info to the appropriate array list
-                            titles.add(item.getTitle());
-                            Log.d(TAG, "Item title: " + item.getTitle() + " added");
-                            descriptions.add(item.getDescription());
-                            prices.add(item.getPrice());
-                            users.add(item.getUser());
+
+                            //Compare the email in the doc item to the current user email
+                            if(item.getUser() == auth.getCurrentUser().getEmail()){
+                                //Add the item info to the appropriate array list
+                                titles.add(item.getTitle());
+                                Log.d(TAG, "Item title: " + item.getTitle() + " added");
+                                descriptions.add(item.getDescription());
+                                prices.add(item.getPrice());
+                                users.add(item.getUser());
+                            }
                         }
                         Log.d(TAG, "Size of titles array list = " + titles.size());
                         Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
@@ -105,34 +107,5 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void signOut(View view) {
-        auth.signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
 
-    public void createListing(View view){
-        Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            //Code to run when the about item is clicked
-            case R.id.action_profile:
-                Intent intent = new Intent(this, ProfileActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }
