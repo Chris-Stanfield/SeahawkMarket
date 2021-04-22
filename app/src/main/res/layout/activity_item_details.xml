@@ -42,8 +42,6 @@
     <TextView
         android:id="@+id/itemDetailDescription"
         android:layout_width="290dp"
-        android:layout_height="115dp"
-        android:layout_width="293dp"
         android:layout_height="170dp"
         android:text="@string/Item_description"
         app:layout_constraintBottom_toBottomOf="parent"

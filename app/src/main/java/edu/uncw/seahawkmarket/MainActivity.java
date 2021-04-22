@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
-        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices);
+        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users);
         mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mainRecycler.setLayoutManager(layoutManager);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             descriptions.add(item.getDescription());
                             prices.add(item.getPrice());
-                            emails.add(item.getEmail());
+                            users.add(item.getUser());
                         }
                         Log.d(TAG, "Size of titles array list = " + titles.size());
                         Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
