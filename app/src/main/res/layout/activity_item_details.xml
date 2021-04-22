@@ -41,14 +41,24 @@
 
     <TextView
         android:id="@+id/itemDetailDescription"
-        android:layout_width="290dp"
-        android:layout_height="230dp"
+        android:layout_width="293dp"
+        android:layout_height="170dp"
         android:text="@string/Item_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailTitle"
-        app:layout_constraintVertical_bias="0.425" />
+        app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+        android:id="@+id/userDetail"
+        android:layout_width="293dp"
+        android:layout_height="40dp"
+        android:text="@string/user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailDescription" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
                 intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
+                intent.putExtra(ItemDetailsActivity.USER, auth.getCurrentUser().getEmail());
                 startActivity(intent);
             }
         });

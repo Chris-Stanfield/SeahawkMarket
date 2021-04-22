@@ -29,6 +29,7 @@ public class CreateListingActivity extends AppCompatActivity {
         EditText itemDescription = findViewById(R.id.itemDesciption);
         EditText itemPrice = findViewById(R.id.itemDetailPrice);
 
+
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
         String price = itemPrice.getText().toString();
