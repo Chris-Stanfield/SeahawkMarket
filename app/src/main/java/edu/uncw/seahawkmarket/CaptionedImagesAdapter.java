@@ -19,6 +19,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     private ArrayList<String> titles;
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
+    private ArrayList<String> users;
     private static final String TAG = "CaptionedImagesAdapter";
     private Listener listener;
 
@@ -35,11 +36,13 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         }
     }
 
-    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices) { //This info is passed in mainActivity
+    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users) { //This info is passed in mainActivity
         this.titles = titles;
         Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
         this.prices = prices;
+        this.users = users;
+
     }
 
     @Override

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -33,9 +34,11 @@ public class CreateListingActivity extends AppCompatActivity {
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
         String price = itemPrice.getText().toString();
-        if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()) {       // title, description, and price must not be empty to make an item object.
-            ItemsForSale item = new ItemsForSale(title, description, price);
-            Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice());
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String user = auth.getCurrentUser().getEmail();
+        if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()&&user!=null) {       // You must put a title, description, and price. You must also be signed in.
+            ItemsForSale item = new ItemsForSale(title, description, price, user);
+            Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() +"\n User: " + item.getUser());
             mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
@@ -64,8 +67,10 @@ public class CreateListingActivity extends AppCompatActivity {
                 Toast.makeText(CreateListingActivity.this, "Missing information for Description and Price", Toast.LENGTH_SHORT).show();
             } else if (description.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Description", Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (price.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Price", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(CreateListingActivity.this, "You must login to list an item", Toast.LENGTH_SHORT).show();
             }
         }
     }
