@@ -10,7 +10,8 @@
     <string name="Item_description">Description of item</string>
     <string name="item_price">Price of item</string>
     <string name="submit">List item</string>
-    <string name="user">User</string>
+    <string name="about_label">About</string>
+    <string name="profile_label">Profile</string>
 
 
 

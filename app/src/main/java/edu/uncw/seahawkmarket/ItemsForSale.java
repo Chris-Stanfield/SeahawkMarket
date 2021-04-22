@@ -1,6 +1,8 @@
 package edu.uncw.seahawkmarket;
 
 public class ItemsForSale {
+    //TODO: Include timestamp
+
     private String title;
     private String description;
     private String price;
