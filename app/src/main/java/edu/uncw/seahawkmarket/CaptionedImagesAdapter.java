@@ -71,8 +71,10 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         imageView.setImageDrawable(drawable);
         imageView.setContentDescription(titles.get(position));
 
-        TextView textView = (TextView) cardView.findViewById(R.id.itemDetailTitle);
-        textView.setText(titles.get(position)); //Populate the CardView's title view
+        TextView titleTextView = (TextView) cardView.findViewById(R.id.itemDetailTitle);
+        TextView emailTextView = (TextView) cardView.findViewById(R.id.itemDetailEmail);
+        titleTextView.setText(titles.get(position)); //Populate the CardView's title view
+        emailTextView.setText(users.get(position)); //Populate the CardView's email view
 
         //Add the listener to the card view
         cardView.setOnClickListener(new View.OnClickListener() {

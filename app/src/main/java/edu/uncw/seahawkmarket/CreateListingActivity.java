@@ -1,7 +1,10 @@
 package edu.uncw.seahawkmarket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,18 +44,18 @@ public class CreateListingActivity extends AppCompatActivity {
     }
 
     public void listItem(View view) {
-        EditText itemName = findViewById(R.id.ItemName);
-        EditText itemDescription = findViewById(R.id.itemDesciption);
-        EditText itemPrice = findViewById(R.id.itemDetailPrice);
-
+        final EditText itemName = findViewById(R.id.ItemName);
+        final EditText itemDescription = findViewById(R.id.itemDesciption);
+        final EditText itemPrice = findViewById(R.id.itemDetailPrice);
 
         String title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
         String price = itemPrice.getText().toString();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String user = auth.getCurrentUser().getEmail();
+
         if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()&&user!=null) {       // You must put a title, description, and price. You must also be signed in.
-            ItemsForSale item = new ItemsForSale(title, description, price, user);
+            final ItemsForSale item = new ItemsForSale(title, description, price, user);
             Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() +"\n User: " + item.getUser());
             mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -60,6 +63,10 @@ public class CreateListingActivity extends AppCompatActivity {
                     Log.d(TAG, "Item added for sale successfully");
                     Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_SHORT).show();
 
+                    //Reset the editTexts to blank
+                    itemName.setText("");
+                    itemDescription.setText("");
+                    itemPrice.setText("");
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
@@ -88,6 +95,32 @@ public class CreateListingActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(CreateListingActivity.this, "You must login to list an item", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    //Set up menu actions
+    public void createListing(View view){
+        Intent intent = new Intent(CreateListingActivity.this, CreateListingActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            //Code to run when the about item is clicked
+            case R.id.action_profile:
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

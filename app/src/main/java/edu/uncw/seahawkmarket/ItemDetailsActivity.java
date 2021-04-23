@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class ItemDetailsActivity extends AppCompatActivity {
@@ -15,6 +18,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "$0.0f";
     public static final String USER = "user";
+
+    //TODO: Add if statement so that is the current user is the poster, they can click a button to delete
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +50,31 @@ public class ItemDetailsActivity extends AppCompatActivity {
         descriptionTextView.setText(description);
         priceTextView.setText(price);
         userTextView.setText(user);
+    }
+
+    public void createListing(View view){
+        Intent intent = new Intent(ItemDetailsActivity.this, CreateListingActivity.class);
+        startActivity(intent);
+    }
+
+    //Set up menu and actions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            //Code to run when the about item is clicked
+            case R.id.action_profile:
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
