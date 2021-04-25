@@ -57,9 +57,9 @@ public class CreateListingActivity extends AppCompatActivity {
         if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()&&user!=null) {       // You must put a title, description, and price. You must also be signed in.
             final ItemsForSale item = new ItemsForSale(title, description, price, user);
             Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() +"\n User: " + item.getUser());
-            mDb.collection("Items for sale").add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            mDb.collection("Items for sale").document(title).set(item).addOnSuccessListener(new OnSuccessListener() {
                 @Override
-                public void onSuccess(DocumentReference documentReference) {
+                public void onSuccess(Object o) {
                     Log.d(TAG, "Item added for sale successfully");
                     Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_SHORT).show();
 
@@ -68,8 +68,7 @@ public class CreateListingActivity extends AppCompatActivity {
                     itemDescription.setText("");
                     itemPrice.setText("");
                 }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
+            }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.w(TAG, "Item not added");
