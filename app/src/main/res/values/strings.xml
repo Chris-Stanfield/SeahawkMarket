@@ -17,6 +17,7 @@
     <string name="my_items">My Items</string>
     <string name="post_item">Post an item to sell</string>
     <string name="login_title">Welcome to Seahawk Market!</string>
+    <string name="main_title">Items for Sale</string>
 
 
 </resources>

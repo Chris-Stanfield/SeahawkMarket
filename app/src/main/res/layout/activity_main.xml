@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_background_hdpi"
     tools:context=".LoginActivity">
 
     <!--    Include the toolbar-->
@@ -15,13 +16,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler"
-        android:layout_width="389dp"
-        android:layout_height="657dp"
+        android:layout_width="373dp"
+        android:layout_height="589dp"
+        android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -31,11 +32,23 @@
         android:clickable="true"
         android:onClick="createListing"
         android:scaleType="center"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
-        app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/outline_add_white_48" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_title"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/main_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
