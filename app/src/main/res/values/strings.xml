@@ -3,8 +3,8 @@
     <string name="login_label">Login</string>
     <string name="logout_label">Logout</string>
     <string name="sign_up_label">Sign Up</string>
-    <string name="email_label">Email:</string>
-    <string name="password_label">Password:</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
     <string name="welcome_message">Hi, </string>
     <string name="Item_name">Name of item</string>
     <string name="Item_description">Description of item</string>
@@ -16,6 +16,7 @@
     <string name="profile_email">Profile Email</string>
     <string name="my_items">My Items</string>
     <string name="post_item">Post an item to sell</string>
+    <string name="login_title">Welcome to Seahawk Market!</string>
 
 
 </resources>

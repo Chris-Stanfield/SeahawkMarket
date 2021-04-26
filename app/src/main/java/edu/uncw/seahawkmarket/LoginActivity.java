@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
         emailField = findViewById(R.id.enterEmail);
         passwordField = findViewById(R.id.enterPassword);
+        //Bring in front of colorSquare view
+        emailField.bringToFront();
+        passwordField.bringToFront();
 
         //Add toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
