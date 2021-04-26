@@ -53,8 +53,7 @@ public class CreateListingActivity extends AppCompatActivity {
         String price = itemPrice.getText().toString();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String user = auth.getCurrentUser().getEmail();
-
-        if(!title.isEmpty()&&!description.isEmpty()&&!price.isEmpty()&&user!=null) {       // You must put a title, description, and price. You must also be signed in.
+        if(!title.isEmpty() && !description.isEmpty() && !price.isEmpty() && user!=null && !price.equals(".")) {       // You must put a title, description, and price. You must also be signed in.
             final ItemsForSale item = new ItemsForSale(title, description, price, user);
             Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() +"\n User: " + item.getUser());
             mDb.collection("Items for sale").document(title).set(item).addOnSuccessListener(new OnSuccessListener() {
@@ -91,6 +90,8 @@ public class CreateListingActivity extends AppCompatActivity {
                 Toast.makeText(CreateListingActivity.this, "Missing information for Description", Toast.LENGTH_SHORT).show();
             } else if (price.isEmpty()){
                 Toast.makeText(CreateListingActivity.this, "Missing information for Price", Toast.LENGTH_SHORT).show();
+            } else if (price.equals(".")){
+                Toast.makeText(CreateListingActivity.this, "enter valid price \nprice must contain a number", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(CreateListingActivity.this, "You must login to list an item", Toast.LENGTH_SHORT).show();
             }
