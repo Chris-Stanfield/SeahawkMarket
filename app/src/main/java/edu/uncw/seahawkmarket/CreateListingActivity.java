@@ -1,11 +1,14 @@
 package edu.uncw.seahawkmarket;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,12 +64,24 @@ public class CreateListingActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Object o) {
                     Log.d(TAG, "Item added for sale successfully");
-                    Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_LONG).show();
 
                     //Reset the editTexts to blank
                     itemName.setText("");
                     itemDescription.setText("");
                     itemPrice.setText("");
+                    //and remove focus
+                    itemName.clearFocus();
+                    itemDescription.clearFocus();
+                    itemPrice.clearFocus();
+
+                    // Set up layout variable
+                    ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.createListingConstraintLayout);
+
+                    // Use input method manager to clear the keyboard from screen to improve UX
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                         @Override

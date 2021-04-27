@@ -111,6 +111,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 Log.d(TAG, "Document = " + dB.collection("Items for sale").document(itemTitle));
                 Log.d(TAG, "Document deleted!");
                 Toast.makeText(ItemDetailsActivity.this, "Item deleted!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ItemDetailsActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -120,7 +122,5 @@ public class ItemDetailsActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 }
