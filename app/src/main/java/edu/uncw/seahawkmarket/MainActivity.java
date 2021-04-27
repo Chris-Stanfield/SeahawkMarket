@@ -106,16 +106,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void signOut(View view) {
-        auth.signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     public void createListing(View view){
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,4 +131,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

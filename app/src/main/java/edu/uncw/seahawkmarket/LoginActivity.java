@@ -31,19 +31,25 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
-        FirebaseAuth.getInstance().signOut();
 
         emailField = findViewById(R.id.enterEmail);
         passwordField = findViewById(R.id.enterPassword);
-        //Reset text
-        emailField.getText().clear();
-        passwordField.getText().clear();
+        emailField.setText("");
+        passwordField.setText("");
 
         //Add toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    //On start, make sure the user is logged out and the login fields are reset to empty
+    public void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().signOut();
+        emailField.getText().clear();
+        passwordField.getText().clear();
+    }
 
     //Check that email and password are valid
     private boolean validateForm() {

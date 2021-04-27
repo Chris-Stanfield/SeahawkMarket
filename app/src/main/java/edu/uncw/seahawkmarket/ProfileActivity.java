@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -114,6 +116,26 @@ public class ProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "Failure iterating through database to get item info!");
                     }
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            //Code to run when the about item is clicked
+            case R.id.action_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
