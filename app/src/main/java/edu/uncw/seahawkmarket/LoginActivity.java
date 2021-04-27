@@ -31,12 +31,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance().signOut();
 
         emailField = findViewById(R.id.enterEmail);
         passwordField = findViewById(R.id.enterPassword);
-        //Bring in front of colorSquare view
-        emailField.bringToFront();
-        passwordField.bringToFront();
+        //Reset text
+        emailField.getText().clear();
+        passwordField.getText().clear();
 
         //Add toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
