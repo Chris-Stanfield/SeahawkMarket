@@ -29,6 +29,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "$0.0f";
     public static final String USER = "user";
+    public static String userEmail;
 
     //TODO: Add if statement so that is the current user is the poster, they can click a button to delete
 
@@ -52,21 +53,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String description = (String) intent.getExtras().get(DESCRIPTION);
         String price = (String) intent.getExtras().get(String.valueOf(PRICE));
         String user = (String) intent.getExtras().get(USER);
+        userEmail = user;
+        Log.d(TAG, "User = " + user);
 
         //Change the text in text views to reflect this item data
         TextView titleTextView = findViewById(R.id.itemDetailTitle);
         TextView descriptionTextView = findViewById(R.id.itemDetailDescription);
         TextView priceTextView = findViewById(R.id.itemDetailPrice);
         TextView userTextView = findViewById(R.id.itemDetailEmail);
-        Button deleteButton = findViewById(R.id.deleteButton);
-
-        //Make the button invisible as default
-        deleteButton.setVisibility(View.GONE);
-        //If the currentUser matches the user who posted the item, make the delete button visible
-        Log.d("TAG", "Auth current user: " + auth.getCurrentUser().getEmail() + " User var: " + user);
-        if(auth.getCurrentUser().getEmail().equals(user)){
-            deleteButton.setVisibility(View.VISIBLE);
-        }
 
         titleTextView.setText(title);
         descriptionTextView.setText(description);
@@ -83,16 +77,21 @@ public class ItemDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //If the currentUser matches the user who posted the item, make the delete button visible
+        Log.d("TAG", "Auth current user: " + auth.getCurrentUser().getEmail() + " User var: " + userEmail);
+        if(auth.getCurrentUser().getEmail().equals(userEmail)){
+            getMenuInflater().inflate(R.menu.menu_item_details, menu);
+        }
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            //Code to run when the about item is clicked
-            case R.id.action_profile:
-                Intent intent = new Intent(this, ProfileActivity.class);
+            //Code that runs when delete button is clicked
+            case R.id.action_delete:
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                deleteItem();
                 return true;
 
             default:
@@ -100,7 +99,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteItem(View view){ //Delete the item being viewed
+    public void deleteItem(){ //Delete the item being viewed
         Log.d(TAG, "Delete button clicked");
         //Start MainActivity to leave the item view, since it is being deleted
         final Intent intent = new Intent(ItemDetailsActivity.this, MainActivity.class);

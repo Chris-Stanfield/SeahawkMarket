@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemDetailsActivity">
+    tools:context=".ItemDetailsActivity"
+    android:background="@drawable/main_background_hdpi">
 
     <include
         android:id="@+id/toolbar"
@@ -64,15 +65,6 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailDescription" />
-
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="43dp"
-        android:layout_height="39dp"
-        android:text="Button"
-        android:onClick="deleteItem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
