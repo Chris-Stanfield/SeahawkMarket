@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -30,6 +31,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String PRICE = "$0.0f";
     public static final String USER = "user";
     public static String userEmail;
+    public static String itemTitle;
 
     //TODO: Add if statement so that is the current user is the poster, they can click a button to delete
 
@@ -50,6 +52,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
         //Get intent and item info from intent extras
         Intent intent = getIntent();
         String title = (String) intent.getExtras().get(TITLE);
+        itemTitle = title;
+        Log.d(TAG, "Item viewed = " + dB.collection("Items for sale").document(title));
         String description = (String) intent.getExtras().get(DESCRIPTION);
         String price = (String) intent.getExtras().get(String.valueOf(PRICE));
         String user = (String) intent.getExtras().get(USER);
@@ -89,8 +93,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()){
             //Code that runs when delete button is clicked
             case R.id.action_delete:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
                 deleteItem();
                 return true;
 
@@ -99,30 +101,26 @@ public class ItemDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteItem(){ //Delete the item being viewed
+    public void deleteItem(){ //Delete the item being viewed, return to Main Activity
         Log.d(TAG, "Delete button clicked");
-        //Start MainActivity to leave the item view, since it is being deleted
-        final Intent intent = new Intent(ItemDetailsActivity.this, MainActivity.class);
-
         //Remove info from Fire store
+        DocumentReference docRef = dB.collection("Items for sale").document(itemTitle);
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Document = " + dB.collection("Items for sale").document(itemTitle));
+                Log.d(TAG, "Document deleted!");
+                Toast.makeText(ItemDetailsActivity.this, "Item deleted!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Issue deleting document!");
+                Toast.makeText(ItemDetailsActivity.this, "Issue deleting item!", Toast.LENGTH_LONG).show();
+            }
+        });
 
-        dB.collection("Items for sale").document(TITLE)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        Toast.makeText(ItemDetailsActivity.this, "Item deleted!",
-                                Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
