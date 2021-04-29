@@ -1,18 +1,18 @@
 package edu.uncw.seahawkmarket;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
     private ArrayList<String> users;
+    private ArrayList<Date> dates;
 
     //TODO: Add look out menu option in this activity
 
@@ -53,17 +55,18 @@ public class ProfileActivity extends AppCompatActivity {
         emailTextView.setText(auth.getCurrentUser().getEmail());
 
         //Get reference to recycler view in main layout
-        RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
+        RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.mainRecycler);
 
         //Create array lists with itemsForSale info from database, get data from database
         titles = new ArrayList<String>();
         descriptions = new ArrayList<String>();
         prices = new ArrayList<String>();
         users = new ArrayList<String>();
+        dates = new ArrayList<Date>();
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
-        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users);
+        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users, dates);
         mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mainRecycler.setLayoutManager(layoutManager);
@@ -87,20 +90,21 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         Log.d(TAG, "Successfully accessed collection!");
-                        for (QueryDocumentSnapshot document: queryDocumentSnapshots){
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             //Create an item object with the document
-                            ItemsForSale item = document.toObject(ItemsForSale.class);
+                            ItemForSale item = document.toObject(ItemForSale.class);
                             Log.d(TAG, "Document item = " + item);
                             Log.d(TAG, "Item email = " + item.getUser() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
-                            if(item.getUser().replaceAll("\n","").equals(auth.getCurrentUser().getEmail().replaceAll("\n",""))){
+                            if (item.getUser().replaceAll("\n", "").equals(auth.getCurrentUser().getEmail().replaceAll("\n", ""))) {
                                 Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());
                                 descriptions.add(item.getDescription());
                                 prices.add(item.getPrice());
                                 users.add(item.getUser());
+                                dates.add(item.getDatePosted());
                                 Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
@@ -125,8 +129,8 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             //Code to run when the about item is clicked
             case R.id.action_logout:
                 Intent intent = new Intent(this, LoginActivity.class);

@@ -2,25 +2,24 @@ package edu.uncw.seahawkmarket;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
+import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,12 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String userEmail = "";
     private FirebaseAuth auth;
-    private FirebaseFirestore dB = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore dB = FirebaseFirestore.getInstance();
     private static final String TAG = "MainActivity";
-    private ArrayList<String> titles;
-    private ArrayList<String> descriptions;
-    private ArrayList<String> prices;
-    private ArrayList<String> users;
+    private static final String COLLECTION = "Items for sale";
+    private ItemRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,71 +43,81 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        //Get reference to recycler view in main layout
-        RecyclerView mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
+        //This keeps the keyboard from pushing the layout up when it appears. Not sure why its needed in this activity..?
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        //Create array lists with itemsForSale info from database, get data from database
-        titles = new ArrayList<String>();
-        descriptions = new ArrayList<String>();
-        prices = new ArrayList<String>();
-        users = new ArrayList<String>();
-        Log.d(TAG, "Array Lists created");
+        RecyclerView recyclerView = findViewById(R.id.mainRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        //Pass the newly created arrays to the adapter made for the card views
-        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users);
-        mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        mainRecycler.setLayoutManager(layoutManager);
+        Query query = dB.collection(COLLECTION)
+                .orderBy("datePosted", Query.Direction.ASCENDING);
+        final FirestoreRecyclerOptions<ItemForSale> options = new FirestoreRecyclerOptions.Builder<ItemForSale>()
+                .setQuery(query, ItemForSale.class)
+                .build();
 
-        //Set the listener that says what to do if a card is clicked
-        adapter.setListener(new CaptionedImagesAdapter.Listener() {
-            public void onClick(int position) {
-                Log.d(TAG, "Card selected. Item = " + titles.get(position));
+        adapter = new ItemRecyclerAdapter(options, new ItemRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
                 Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
-                intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
-                intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
-                intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
-                intent.putExtra(ItemDetailsActivity.USER, users.get(position));
+
+                //Get reference to the item clicked. put extra with intent, based on data from reference
+                ItemForSale clickedItem = adapter.getSnapshots().getSnapshot(position).toObject(ItemForSale.class);
+                intent.putExtra(ItemDetailsActivity.TITLE, clickedItem.getTitle());
+                intent.putExtra(ItemDetailsActivity.DESCRIPTION, clickedItem.getDescription());
+                intent.putExtra(ItemDetailsActivity.PRICE, clickedItem.getPrice());
+                intent.putExtra(ItemDetailsActivity.USER, clickedItem.getUser());
                 startActivity(intent);
             }
         });
+        recyclerView.setAdapter(adapter);
 
-        dB.collection("Items for sale").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "Successfully accessed collection!");
-                        for (QueryDocumentSnapshot document: queryDocumentSnapshots){
-                            //Create an item object with the document
-                            ItemsForSale item = document.toObject(ItemsForSale.class);
-                            Log.d(TAG, "Document item = " + item);
+        //Set up search box textChangedListener
+        EditText searchBox = findViewById(R.id.searchBox);
+        searchBox.addTextChangedListener(new TextWatcher() {
+            //First 2 can be left blank
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-                            //Add the item info to the appropriate array list
-                            titles.add(item.getTitle());
-                            descriptions.add(item.getDescription());
-                            prices.add(item.getPrice());
-                            users.add(item.getUser());
-                            Log.d(TAG, "Item title: " + item.getTitle() + " added");
-                        }
-                        Log.d(TAG, "Size of titles array list = " + titles.size());
-                        Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
-                        Log.d(TAG, "Size of prices array list = " + prices.size());
-                        adapter.notifyDataSetChanged();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Failure iterating through database to get item info!");
-                    }
-                });
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            //This is the one important for my search bar.
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d(TAG, "Search box has changed to: " + s.toString());
+                //Set up the query to search for items
+                Query query = dB.collection(COLLECTION)
+                        .whereEqualTo("title", s.toString())
+                        .orderBy("datePosted", Query.Direction.ASCENDING);
+
+                FirestoreRecyclerOptions<ItemForSale> options = new FirestoreRecyclerOptions.Builder<ItemForSale>()
+                        .setQuery(query, ItemForSale.class)
+                        .build();
+                adapter.updateOptions(options);
+            }
+        });
     }
 
-    public void createListing(View view){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
+
+    public void createListing(View view) {
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             //Code to run when the about item is clicked
             case R.id.action_profile:
                 Intent intent = new Intent(this, ProfileActivity.class);

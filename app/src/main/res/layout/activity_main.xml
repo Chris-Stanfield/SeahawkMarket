@@ -15,13 +15,14 @@
     <!--    Include recycler view -->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler"
-        android:layout_width="373dp"
-        android:layout_height="589dp"
-        android:layout_marginBottom="16dp"
+        android:id="@+id/mainRecycler"
+        android:layout_width="381dp"
+        android:layout_height="533dp"
+        android:layout_marginBottom="4dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -40,15 +41,29 @@
         app:srcCompat="@drawable/outline_add_white_48" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="@string/main_title"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/main_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <EditText
+        android:id="@+id/searchBox"
+        android:layout_width="335dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/colorLoginText"
+        android:drawableStart="@drawable/baseline_search_white_24"
+        android:hint="@string/search_hint"
+        android:inputType="textAutoComplete"
+        app:layout_constraintBottom_toTopOf="@id/mainRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/mainTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

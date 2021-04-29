@@ -13,13 +13,15 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
-    private ArrayList<String> titles;
-    private ArrayList<String> descriptions;
-    private ArrayList<String> prices;
-    private ArrayList<String> users;
+    private final ArrayList<String> titles;
+    private final ArrayList<String> descriptions;
+    private final ArrayList<String> prices;
+    private final ArrayList<String> users;
+    private final ArrayList<Date> dates;
     private static final String TAG = "CaptionedImagesAdapter";
     private Listener listener;
 
@@ -28,7 +30,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
+        private final CardView cardView;
 
         public ViewHolder(CardView v) { //Each view holder will display a CardView
             super(v);
@@ -36,12 +38,13 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         }
     }
 
-    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users) { //This info is passed in mainActivity
+    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users, ArrayList<Date> dates) { //This info is passed in mainActivity
         this.titles = titles;
         Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
         this.prices = prices;
         this.users = users;
+        this.dates = dates;
 
     }
 
@@ -58,7 +61,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).
-                inflate((R.layout.card_captioned_image), //Use the layout we created earlier for the card views
+                inflate((R.layout.posted_item), //Use the layout we created earlier for the card views
                         parent, false);
         return new ViewHolder(cv);
     }
@@ -66,15 +69,22 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.itemDetailImage);
+        ImageView imageView = cardView.findViewById(R.id.itemDetailImage);
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), R.drawable.default_cardview_image); //Display image in image view
         imageView.setImageDrawable(drawable);
         imageView.setContentDescription(titles.get(position));
 
-        TextView titleTextView = (TextView) cardView.findViewById(R.id.itemDetailTitle);
-        TextView emailTextView = (TextView) cardView.findViewById(R.id.itemDetailEmail);
+        //Get access to all the views
+        TextView titleTextView = cardView.findViewById(R.id.itemDetailTitle);
+        TextView emailTextView = cardView.findViewById(R.id.itemDetailEmail);
+        TextView priceTextView = cardView.findViewById(R.id.itemDetailPrice);
+        TextView createdOnTextView = cardView.findViewById(R.id.itemDetailDatePosted);
+
+        //Set the correct values for each view
         titleTextView.setText(titles.get(position)); //Populate the CardView's title view
         emailTextView.setText(users.get(position)); //Populate the CardView's email view
+        priceTextView.setText(prices.get(position)); //Populate the CardView's price view
+        createdOnTextView.setText(dates.get(position).toString()); //Populate the CardView's date view
 
         //Add the listener to the card view
         cardView.setOnClickListener(new View.OnClickListener() {
