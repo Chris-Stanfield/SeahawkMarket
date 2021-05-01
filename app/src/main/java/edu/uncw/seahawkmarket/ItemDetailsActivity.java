@@ -126,4 +126,15 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "Edit button clicked");
 
     }
+
+    public void messageSeller(View view) {      // method to email seller
+        Log.d(TAG, "Contact seller button clicked");
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        String to[] = {userEmail};
+        intent.putExtra(Intent.EXTRA_EMAIL, to);   //  puts the email of the seller in the To:
+        String example_email = "Hi! I would like to purchase ";
+        intent.putExtra(Intent.EXTRA_TEXT,  example_email + itemTitle);
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose email client"));
+    }
 }

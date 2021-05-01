@@ -22,4 +22,6 @@
     <string name="delete_label">Delete item</string>
     <string name="search_hint">Search by item name</string>
     <string name="posted_on">Posted on: %1$s</string>
+    <string name="contact">Contact Seller</string>
+    <string name="email_example">Hi! I would like to purchase </string>
 </resources>
