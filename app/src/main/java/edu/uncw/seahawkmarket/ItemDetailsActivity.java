@@ -97,6 +97,11 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+
+            case R.id.action_edit:
+                editItem();
+                return true;
+
         }
     }
 
@@ -124,6 +129,19 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
     public void editItem() { //Edit the item being viewed
         Log.d(TAG, "Edit button clicked");
+        DocumentReference docRef = dB.collection(COLLECTION).document(itemTitle);
+        Intent intent1 = getIntent();
+        Intent intent = new Intent(ItemDetailsActivity.this, EditActivity.class);
+        intent.putExtra(TITLE, itemTitle);
+        String description = (String) intent1.getExtras().get(DESCRIPTION);
+        intent.putExtra(DESCRIPTION, description);
+        String price = (String) intent1.getExtras().get(PRICE);
+        System.out.println("itemTitle = " + itemTitle + "  description = " + description);
+        intent.putExtra(PRICE, price);
+
+        startActivity(intent);
+
+
 
     }
 
