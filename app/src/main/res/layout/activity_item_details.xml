@@ -20,6 +20,7 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/itemDetailTitle"
         app:srcCompat="@drawable/default_cardview_image" />
 
     <TextView
@@ -34,6 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/itemDetailPrice"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailImage" />
 
     <TextView
@@ -52,13 +54,14 @@
     <TextView
         android:id="@+id/itemDetailDescription"
         android:layout_width="290dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_marginTop="12dp"
         android:text="@string/Item_description"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/itemDetailEmail"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailPrice" />
 
     <TextView
@@ -73,6 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/contact"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailDescription" />
 
     <Button
