@@ -29,7 +29,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "$0.0f";
-    public static final String USER = "user";
+    public static final String EMAIL = "email";
     public static String userEmail;
     public static String itemTitle;
 
@@ -55,7 +55,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "Item viewed = " + dB.collection(COLLECTION).document(title));
         String description = (String) intent.getExtras().get(DESCRIPTION);
         String price = (String) intent.getExtras().get(String.valueOf(PRICE));
-        String user = (String) intent.getExtras().get(USER);
+        String user = (String) intent.getExtras().get(EMAIL);
         userEmail = user;
         Log.d(TAG, "User = " + user);
 

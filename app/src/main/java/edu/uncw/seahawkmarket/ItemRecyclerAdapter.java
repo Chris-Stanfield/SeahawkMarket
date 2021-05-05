@@ -38,18 +38,18 @@ public class ItemRecyclerAdapter extends FirestoreRecyclerAdapter<ItemForSale, I
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
         final CardView view;
-        final TextView userEmail;
+        final TextView itemEmail;
         final TextView itemTitle;
         final TextView itemPrice;
-        final TextView datePosted;
+        final TextView itemDatePosted;
 
         ItemViewHolder(CardView v) {
             super(v);
             view = v;
-            userEmail = v.findViewById(R.id.itemDetailEmail);
+            itemEmail = v.findViewById(R.id.itemDetailEmail);
             itemTitle = v.findViewById(R.id.itemDetailTitle);
             itemPrice = v.findViewById(R.id.itemDetailPrice);
-            datePosted = v.findViewById(R.id.itemDetailDatePosted);
+            itemDatePosted = v.findViewById(R.id.itemDetailDatePosted);
         }
     }
 
@@ -59,10 +59,10 @@ public class ItemRecyclerAdapter extends FirestoreRecyclerAdapter<ItemForSale, I
         Log.d(TAG, "Item = " + item.getTitle());
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.userEmail.setText(item.getUser());
+        holder.itemEmail.setText(item.getEmail());
         holder.itemTitle.setText(item.getTitle());
         holder.itemPrice.setText("$" + item.getPrice());
-        holder.datePosted.setText(holder.view.getContext()
+        holder.itemDatePosted.setText(holder.view.getContext()
                 .getString(R.string.posted_on, format.format(item.getDatePosted())));
         if (listener != null) {
             holder.view.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class ItemRecyclerAdapter extends FirestoreRecyclerAdapter<ItemForSale, I
                                              int viewType) {
         // create a new view
         CardView v = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.posted_item, parent, false);
+                .inflate(R.layout.posted_item_card, parent, false);
         return new ItemViewHolder(v);
     }
 }

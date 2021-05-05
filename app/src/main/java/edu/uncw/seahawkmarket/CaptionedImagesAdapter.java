@@ -61,7 +61,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).
-                inflate((R.layout.posted_item), //Use the layout we created earlier for the card views
+                inflate((R.layout.posted_item_card), //Use the layout we created earlier for the card views
                         parent, false);
         return new ViewHolder(cv);
     }

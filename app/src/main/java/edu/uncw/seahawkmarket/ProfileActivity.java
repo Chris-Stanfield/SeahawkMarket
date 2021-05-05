@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
                 intent.putExtra(ItemDetailsActivity.PRICE, prices.get(position));
-                intent.putExtra(ItemDetailsActivity.USER, users.get(position));
+                intent.putExtra(ItemDetailsActivity.EMAIL, users.get(position));
                 startActivity(intent);
             }
         });
@@ -94,16 +94,16 @@ public class ProfileActivity extends AppCompatActivity {
                             //Create an item object with the document
                             ItemForSale item = document.toObject(ItemForSale.class);
                             Log.d(TAG, "Document item = " + item);
-                            Log.d(TAG, "Item email = " + item.getUser() + ", current user email = " + auth.getCurrentUser().getEmail());
+                            Log.d(TAG, "Item email = " + item.getEmail() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
-                            if (item.getUser().replaceAll("\n", "").equals(auth.getCurrentUser().getEmail().replaceAll("\n", ""))) {
+                            if (item.getEmail().replaceAll("\n", "").equals(auth.getCurrentUser().getEmail().replaceAll("\n", ""))) {
                                 Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());
                                 descriptions.add(item.getDescription());
                                 prices.add(item.getPrice());
-                                users.add(item.getUser());
+                                users.add(item.getEmail());
                                 dates.add(item.getDatePosted());
                                 Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }

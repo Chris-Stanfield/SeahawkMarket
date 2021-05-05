@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(ItemDetailsActivity.TITLE, clickedItem.getTitle());
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, clickedItem.getDescription());
                 intent.putExtra(ItemDetailsActivity.PRICE, clickedItem.getPrice());
-                intent.putExtra(ItemDetailsActivity.USER, clickedItem.getUser());
+                intent.putExtra(ItemDetailsActivity.EMAIL, clickedItem.getEmail());
                 startActivity(intent);
             }
         });
@@ -88,9 +88,16 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 Log.d(TAG, "Search box has changed to: " + s.toString());
                 //Set up the query to search for items
-                Query query = dB.collection(COLLECTION)
-                        .whereEqualTo("title", s.toString())
-                        .orderBy("datePosted", Query.Direction.ASCENDING);
+                Query query;
+                if(s.toString().isEmpty()) { //If search is empty get rid of filters and display normal recycler
+                    query = dB.collection(COLLECTION)
+                            .orderBy("datePosted", Query.Direction.ASCENDING);
+                }
+                else { //If the string is empty use original search. This prevents issues when clearing search bar
+                    query = dB.collection(COLLECTION)
+                            .whereEqualTo("title", s.toString())
+                            .orderBy("datePosted", Query.Direction.ASCENDING);
+                }
 
                 FirestoreRecyclerOptions<ItemForSale> options = new FirestoreRecyclerOptions.Builder<ItemForSale>()
                         .setQuery(query, ItemForSale.class)

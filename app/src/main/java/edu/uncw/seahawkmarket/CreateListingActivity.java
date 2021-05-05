@@ -28,7 +28,6 @@ public class CreateListingActivity extends AppCompatActivity {
     private static final String TAG = "CreateListingActivity";
     private FirebaseAuth auth;
     private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
-    private String currentUserEmail;
 
     //TODO: Recycler needs to update after an item is added.
 
@@ -38,7 +37,6 @@ public class CreateListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_listing);
 
         auth = FirebaseAuth.getInstance();
-        currentUserEmail = auth.getCurrentUser().getEmail();
 
         //Set up toolbar and enable up button
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,10 +54,10 @@ public class CreateListingActivity extends AppCompatActivity {
         String description = itemDescription.getText().toString();
         String price = itemPrice.getText().toString();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        String user = auth.getCurrentUser().getEmail();
-        if (!title.isEmpty() && !description.isEmpty() && !price.isEmpty() && user != null && !price.equals(".")) {       // You must put a title, description, and price. You must also be signed in.
-            final ItemForSale item = new ItemForSale(title, description, price, user, new Date());
-            Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() + "\n User: " + item.getUser());
+        String email = auth.getCurrentUser().getEmail();
+        if (!title.isEmpty() && !description.isEmpty() && !price.isEmpty() && email != null && !price.equals(".")) {       // You must put a title, description, and price. You must also be signed in.
+            final ItemForSale item = new ItemForSale(title, description, price, email, new Date());
+            Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() + "\n User: " + item.getEmail());
             mDb.collection("Items for sale").document(title).set(item).addOnSuccessListener(new OnSuccessListener() {
                 @Override
                 public void onSuccess(Object o) {
@@ -91,7 +89,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 }
             });
         } else {
-            if (title.isEmpty() && description.isEmpty() && price.isEmpty()) {      // conditional statements for detailed user feedback on why item was not added for sell.
+            if (title.isEmpty() && description.isEmpty() && price.isEmpty()) {      // conditional statements for detailed email feedback on why item was not added for sell.
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name, Description, and Price", Toast.LENGTH_SHORT).show();
             } else if (title.isEmpty() && description.isEmpty()) {
                 Toast.makeText(CreateListingActivity.this, "Missing information for Name and Description", Toast.LENGTH_SHORT).show();
