@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
         TextView descriptionTextView = findViewById(R.id.itemDetailDescription);
         TextView priceTextView = findViewById(R.id.itemDetailPrice);
         TextView userTextView = findViewById(R.id.itemDetailEmail);
+        ImageButton contactSellerButton = findViewById(R.id.contactSellerButton);
+
+        //Make contactSellerButton visible if current user is not poster
+        if(auth.getCurrentUser().getEmail().equals(userEmail)){
+            contactSellerButton.setVisibility(View.GONE);
+        }
 
         titleTextView.setText(title);
         descriptionTextView.setText(description);
