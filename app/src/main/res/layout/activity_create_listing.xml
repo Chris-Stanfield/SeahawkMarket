@@ -82,9 +82,31 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
+
+    <ImageButton
+        android:id="@+id/itemImageButton"
+        android:layout_width="75dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="16dp"
+        android:onClick="addItemImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailPrice"
-        app:layout_constraintVertical_bias="0.169" />
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="165dp"
+        android:layout_height="113dp"
+        android:layout_marginBottom="196dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/default_cardview_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
