@@ -42,7 +42,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String EMAIL = "email";
     public static String userEmail;
     public static String itemTitle;
-    private StorageReference storageRef;
     private String imageFile;
     private FirebaseStorage storage;
 
@@ -71,6 +70,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String user = (String) intent.getExtras().get(EMAIL);
         userEmail = user;
         Log.d(TAG, "User = " + user);
+
 
         //Change the text in text views to reflect this item data
         TextView titleTextView = findViewById(R.id.itemDetailTitle);
