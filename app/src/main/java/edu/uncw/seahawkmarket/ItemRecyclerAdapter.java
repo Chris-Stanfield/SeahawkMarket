@@ -78,7 +78,7 @@ public class ItemRecyclerAdapter extends FirestoreRecyclerAdapter<ItemForSale, I
         // - replace the contents of the view with that element
         storage = FirebaseStorage.getInstance();
         StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + item.getImageFile());
-        gsReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

@@ -92,7 +92,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     imageFile = document.get("imageFile").toString();
                     StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
-                    gsReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
                         public void onSuccess(byte[] bytes) {
                             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
