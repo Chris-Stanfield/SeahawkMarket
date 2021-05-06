@@ -1,5 +1,7 @@
 package edu.uncw.seahawkmarket;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,10 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,6 +28,8 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     private final ArrayList<String> prices;
     private final ArrayList<String> users;
     private final ArrayList<Date> dates;
+    private final ArrayList<String> imageFile;
+    private FirebaseStorage storage;
     private static final String TAG = "CaptionedImagesAdapter";
     private Listener listener;
 
@@ -38,13 +46,14 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         }
     }
 
-    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users, ArrayList<Date> dates) { //This info is passed in mainActivity
+    public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users, ArrayList<Date> dates, ArrayList<String> imageFile) { //This info is passed in mainActivity
         this.titles = titles;
         Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
         this.prices = prices;
         this.users = users;
         this.dates = dates;
+        this.imageFile = imageFile;
 
     }
 
@@ -69,9 +78,18 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = cardView.findViewById(R.id.itemDetailImage);
+        final ImageView imageView = cardView.findViewById(R.id.itemDetailImage);
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), R.drawable.default_cardview_image); //Display image in image view
-        imageView.setImageDrawable(drawable);
+        storage = FirebaseStorage.getInstance();
+        System.out.println(imageFile.get(position));
+        StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile.get(position));
+        gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
         imageView.setContentDescription(titles.get(position));
 
         //Get access to all the views
@@ -79,6 +97,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         TextView emailTextView = cardView.findViewById(R.id.itemDetailEmail);
         TextView priceTextView = cardView.findViewById(R.id.itemDetailPrice);
         TextView createdOnTextView = cardView.findViewById(R.id.itemDetailDatePosted);
+
 
         //Set the correct values for each view
         titleTextView.setText(titles.get(position)); //Populate the CardView's title view

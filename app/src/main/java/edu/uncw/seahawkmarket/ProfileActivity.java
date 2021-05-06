@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<String> descriptions;
     private ArrayList<String> prices;
     private ArrayList<String> users;
+    private ArrayList<String> imageFiles;
     private ArrayList<Date> dates;
 
     //TODO: Add look out menu option in this activity
@@ -63,10 +64,11 @@ public class ProfileActivity extends AppCompatActivity {
         prices = new ArrayList<String>();
         users = new ArrayList<String>();
         dates = new ArrayList<Date>();
+        imageFiles = new ArrayList<String>();
         Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
-        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users, dates);
+        final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users, dates, imageFiles);
         mainRecycler.setAdapter(adapter); //Link the adapter to the recycler
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mainRecycler.setLayoutManager(layoutManager);
@@ -105,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 prices.add(item.getPrice());
                                 users.add(item.getEmail());
                                 dates.add(item.getDatePosted());
+                                imageFiles.add(item.getImageFile());
                                 Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
