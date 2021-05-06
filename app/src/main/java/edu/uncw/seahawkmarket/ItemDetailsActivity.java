@@ -1,12 +1,15 @@
 package edu.uncw.seahawkmarket;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,11 +18,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class ItemDetailsActivity extends AppCompatActivity {
     private static final String TAG = "ItemDetailsActivity";
@@ -32,6 +41,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
     public static final String EMAIL = "email";
     public static String userEmail;
     public static String itemTitle;
+    private StorageReference storageRef;
+    private String imageFile;
+    private FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +81,41 @@ public class ItemDetailsActivity extends AppCompatActivity {
         descriptionTextView.setText(description);
         priceTextView.setText(price);
         userTextView.setText(user);
+
+        final ImageView itemDetailImage = findViewById(R.id.itemDetailImage);
+        storage = FirebaseStorage.getInstance();
+        final StorageReference imageRef = storage.getReference();
+        DocumentReference docRef = dB.collection(COLLECTION).document(title);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    imageFile = document.get("imageFile").toString();
+                    StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
+                    gsReference.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            itemDetailImage.setImageBitmap(bitmap);
+                        }
+                    });
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+
+        System.out.println("Image file... ===  " + imageFile);
+
+
     }
 
     public void createListing(View view) {
@@ -151,6 +198,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_EMAIL, to);   //  puts the email of the seller in the To:
         String example_email = "Hi! I would like to purchase ";
         intent.putExtra(Intent.EXTRA_TEXT,  example_email + itemTitle);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         intent.setType("message/rfc822");
         startActivity(Intent.createChooser(intent, "Choose email client"));
     }

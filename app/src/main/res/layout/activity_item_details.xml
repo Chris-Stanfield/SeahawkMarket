@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/itemDetailImage"
-        android:layout_width="290dp"
-        android:layout_height="262dp"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
         android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -27,8 +27,8 @@
         android:id="@+id/itemDetailTitle"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
         android:text="@string/Item_name"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -42,8 +42,8 @@
         android:id="@+id/itemDetailPrice"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
         android:text="@string/item_price"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,30 +68,31 @@
         android:id="@+id/itemDetailEmail"
         android:layout_width="290dp"
         android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
+        android:layout_marginTop="26dp"
+        android:gravity="left"
         android:text="@string/email_label"
         android:textSize="24sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/contact"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailDescription" />
 
-    <Button
-        android:id="@+id/contact"
+
+    <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/contact"
+        android:layout_marginEnd="234dp"
         android:onClick="messageSeller"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemDetailEmail"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/itemDetailEmail"
+        app:layout_constraintEnd_toEndOf="@+id/itemDetailEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/itemDetailEmail"
+        app:layout_constraintTop_toTopOf="@+id/itemDetailEmail"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

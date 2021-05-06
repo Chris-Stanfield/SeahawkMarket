@@ -15,13 +15,13 @@ public class ItemForSale {
     public ItemForSale() {
     }
 
-    public ItemForSale(String title, String description, String price, String email, Date datePosted) {
+    public ItemForSale(String title, String description, String price, String email, Date datePosted, String imageFile) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.email = email;
         this.datePosted = datePosted;
-        this.imageFile = null;
+        this.imageFile = imageFile;
     }
 
     public String getTitle() {
