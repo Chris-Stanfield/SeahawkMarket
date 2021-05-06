@@ -97,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Log.d(TAG, "Item email = " + item.getEmail() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
-                            if (item.getEmail().replaceAll("\n", "").equals(auth.getCurrentUser().getEmail().replaceAll("\n", ""))) {
+                            if (item.getEmail().equals(auth.getCurrentUser().getEmail())) {
                                 Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());

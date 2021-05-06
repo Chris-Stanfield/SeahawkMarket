@@ -95,13 +95,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 deleteItem();
                 return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
-
             case R.id.action_edit:
                 editItem();
                 return true;
 
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
