@@ -152,6 +152,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_EMAIL, to);   //  puts the email of the seller in the To:
         String example_email = "Hi! I would like to purchase ";
         intent.putExtra(Intent.EXTRA_TEXT,  example_email + itemTitle);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         intent.setType("message/rfc822");
         startActivity(Intent.createChooser(intent, "Choose email client"));
     }
