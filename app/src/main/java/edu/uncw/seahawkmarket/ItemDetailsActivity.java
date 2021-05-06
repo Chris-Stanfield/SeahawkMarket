@@ -84,7 +84,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
         final ImageView itemDetailImage = findViewById(R.id.itemDetailImage);
         storage = FirebaseStorage.getInstance();
-        final StorageReference imageRef = storage.getReference();
         DocumentReference docRef = dB.collection(COLLECTION).document(title);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -197,8 +196,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         String to[] = {userEmail};
         intent.putExtra(Intent.EXTRA_EMAIL, to);   //  puts the email of the seller in the To:
-        String example_email = "Hi! I would like to purchase ";
-        intent.putExtra(Intent.EXTRA_TEXT,  example_email + itemTitle);
+        String example_email = "Hi! I would like to purchase '";
+        intent.putExtra(Intent.EXTRA_TEXT,  example_email + itemTitle + "'");
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         intent.setType("message/rfc822");
         startActivity(Intent.createChooser(intent, "Choose email client"));
