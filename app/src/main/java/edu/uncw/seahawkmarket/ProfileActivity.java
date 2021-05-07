@@ -76,9 +76,38 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         auth = FirebaseAuth.getInstance();
+
+        // Handles Image Profile pictures
         profileImage = findViewById(R.id.profileImage);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        DocumentReference docRef = dB.collection("Users").document(auth.getCurrentUser().getEmail());  // Gets the pofile image name out of collection and document for current user
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {     // A custom profile image only loads if the user has created one. Other wise a default image
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        profileImageFile = document.get("profileImageFile").toString();      // profileImageFile = the name of the profile image file
+                        StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + profileImageFile);  // Gets the fu
+                        gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                profileImage.setImageBitmap(bitmap);
+                            }
+                        });
+                    } else {
+                        profileImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
 
 
         //Set email in text view
@@ -138,34 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 users.add(item.getEmail());
                                 dates.add(item.getDatePosted());
                                 imageFiles.add(item.getImageFile());
-                                String user = item.getEmail();
-                                DocumentReference docRef = dB.collection("Users").document(auth.getCurrentUser().getEmail());
-                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            if (document.exists()) {
-                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                profileImageFile = document.get("profileImageFile").toString();
-                                                Log.d(TAG, "profileImageFile = " + profileImageFile);
-                                                StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + profileImageFile);
-                                                gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                                    @Override
-                                                    public void onSuccess(byte[] bytes) {
-                                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                        profileImage.setImageBitmap(bitmap);
-                                                    }
-                                                });
-                                            } else {
-                                                profileImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
-                                                Log.d(TAG, "No such document");
-                                            }
-                                        } else {
-                                            Log.d(TAG, "get failed with ", task.getException());
-                                        }
-                                    }
-                                });
+
                                 Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
@@ -219,6 +221,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    // uploads profile picture to the database
     private void uploadPicture(){
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setTitle("Uploading Image...");
@@ -226,8 +229,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         final String randomKey = UUID.randomUUID().toString();
         riversRef = storageReference.child("images/" + randomKey);
-        Users userName = new Users(riversRef.getName());
-        mDb.collection("Users").document(users.get(0)).set(userName);
+        Users userName = new Users(riversRef.getName());  // create a new document for a specific user
+        String userEmail = auth.getCurrentUser().getEmail();
+        mDb.collection("Users").document(userEmail).set(userName);  // collection Users. Document of users email that has a profileImageFile field that we can obtain later. We know what the profile image filename is for the user.
         riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

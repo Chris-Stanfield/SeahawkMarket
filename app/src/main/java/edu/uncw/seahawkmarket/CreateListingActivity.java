@@ -92,8 +92,11 @@ public class CreateListingActivity extends AppCompatActivity {
         title = itemName.getText().toString();
         String description = itemDescription.getText().toString();
         String price = itemPrice.getText().toString();
-        String imageFile = riversRef.getName();
-        System.out.println(imageFile + "  This is the name of the image file");
+        String imageFile = null;
+        if(riversRef!=null){
+            imageFile = riversRef.getName();
+        }
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String email = auth.getCurrentUser().getEmail();
         if (!title.isEmpty() && !description.isEmpty() && !price.isEmpty() && email != null && !price.equals(".")) {       // You must put a title, description, and price. You must also be signed in.

@@ -97,20 +97,19 @@ public class ItemDetailsActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    imageFile = document.get("imageFile").toString();
-                    if(imageFile!=null) {
-                        StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
-                        gsReference.getBytes(1024 * 1024 * 10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                itemDetailImage.setImageBitmap(bitmap);
-                            }
-
-                        });
-                    }
                     if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if(imageFile!=null) {
+                            imageFile = document.get("imageFile").toString();
+                            StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
+                            gsReference.getBytes(1024 * 1024 * 10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    itemDetailImage.setImageBitmap(bitmap);
+                                }
+
+                            });
+                        }
                     } else {
                         Log.d(TAG, "No such document");
                         itemDetailImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
