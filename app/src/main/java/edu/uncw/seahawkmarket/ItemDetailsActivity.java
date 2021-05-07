@@ -98,18 +98,22 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     imageFile = document.get("imageFile").toString();
-                    StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
-                    gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            itemDetailImage.setImageBitmap(bitmap);
-                        }
-                    });
+                    if(imageFile!=null) {
+                        StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + imageFile);
+                        gsReference.getBytes(1024 * 1024 * 10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                itemDetailImage.setImageBitmap(bitmap);
+                            }
+
+                        });
+                    }
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
+                        itemDetailImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
