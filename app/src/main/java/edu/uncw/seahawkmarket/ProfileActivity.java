@@ -1,28 +1,47 @@
 package edu.uncw.seahawkmarket;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -35,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<String> users;
     private ArrayList<String> imageFiles;
     private ArrayList<Date> dates;
+    private String profileImageFile;
+    public Uri imageUri;
+    private FirebaseFirestore mDb = FirebaseFirestore.getInstance();
+    private ImageView profileImage;
+    private FirebaseStorage storage;
+    private StorageReference riversRef;
+    private StorageReference storageReference;
 
     //TODO: Add look out menu option in this activity
 
@@ -50,6 +76,10 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         auth = FirebaseAuth.getInstance();
+        profileImage = findViewById(R.id.profileImage);
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
 
         //Set email in text view
         TextView emailTextView = findViewById(R.id.profileEmail);
@@ -108,6 +138,34 @@ public class ProfileActivity extends AppCompatActivity {
                                 users.add(item.getEmail());
                                 dates.add(item.getDatePosted());
                                 imageFiles.add(item.getImageFile());
+                                String user = item.getEmail();
+                                DocumentReference docRef = dB.collection("Users").document(auth.getCurrentUser().getEmail());
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                profileImageFile = document.get("profileImageFile").toString();
+                                                Log.d(TAG, "profileImageFile = " + profileImageFile);
+                                                StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + profileImageFile);
+                                                gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                                    @Override
+                                                    public void onSuccess(byte[] bytes) {
+                                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                        profileImage.setImageBitmap(bitmap);
+                                                    }
+                                                });
+                                            } else {
+                                                profileImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
+                                                Log.d(TAG, "No such document");
+                                            }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
                                 Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
@@ -144,6 +202,55 @@ public class ProfileActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void addProfileImage(View view){
+        Intent img = new Intent();
+        img.setType("image/*");
+        img.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(img, 1);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            profileImage.setImageURI(imageUri);
+            uploadPicture();
+        }
+    }
+
+    private void uploadPicture(){
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setTitle("Uploading Image...");
+        pd.show();
+
+        final String randomKey = UUID.randomUUID().toString();
+        riversRef = storageReference.child("images/" + randomKey);
+        Users userName = new Users(riversRef.getName());
+        mDb.collection("Users").document(users.get(0)).set(userName);
+        riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                pd.dismiss();
+                Toast.makeText(ProfileActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+            }
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(ProfileActivity.this, "Unable to upload image.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                pd.setMessage("Progress: " + (int) progressPercent + "%");
+            }
+        });
+    }
+
+
 
 
 }

@@ -67,4 +67,7 @@ public class ItemForSale {
     public void setImageFile(String imageFile) {
         this.imageFile = imageFile;
     }
+
+
+
 }
