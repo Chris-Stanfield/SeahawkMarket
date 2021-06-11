@@ -2,7 +2,6 @@ package edu.uncw.seahawkmarket;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,6 @@ public class ItemRecyclerAdapter extends FirestoreRecyclerAdapter<ItemForSale, I
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, @NonNull int position, @NonNull final ItemForSale item) {
-        Log.d(TAG, "Item = " + item.getTitle());
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         storage = FirebaseStorage.getInstance();

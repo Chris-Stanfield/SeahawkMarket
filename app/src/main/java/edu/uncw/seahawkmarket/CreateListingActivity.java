@@ -101,11 +101,9 @@ public class CreateListingActivity extends AppCompatActivity {
         String email = auth.getCurrentUser().getEmail();
         if (!title.isEmpty() && !description.isEmpty() && !price.isEmpty() && email != null && !price.equals(".")) {       // You must put a title, description, and price. You must also be signed in.
             final ItemForSale item = new ItemForSale(title, description, price, email, new Date(), imageFile);
-            Log.d(TAG, "\nListed item: " + " \n Name of item: " + item.getTitle() + "\n Description: " + item.getDescription() + "\n price: " + item.getPrice() + "\n User: " + item.getEmail());
             mDb.collection("Items for sale").document(title).set(item).addOnSuccessListener(new OnSuccessListener() {
                 @Override
                 public void onSuccess(Object o) {
-                    Log.d(TAG, "Item added for sale successfully");
                     Toast.makeText(CreateListingActivity.this, "Item added for sell!", Toast.LENGTH_LONG).show();
 
                     //Reset the editTexts to blank
@@ -129,7 +127,6 @@ public class CreateListingActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Item not added");
                     Toast.makeText(CreateListingActivity.this, "Could not add item for sell.", Toast.LENGTH_SHORT).show();
                 }
             });

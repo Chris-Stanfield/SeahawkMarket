@@ -88,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, launch main activity with intent and send user email
-                            Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra(MainActivity.userEmail, user.getEmail());
@@ -97,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Exception e = task.getException();
-                            Log.w(TAG, "signInWithEmail:failure", e);
                             Toast.makeText(LoginActivity.this, "Login failed: " + e.getLocalizedMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -119,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, start main activity with user email
-                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra(MainActivity.userEmail, user.getEmail());
@@ -128,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If registration fails, display a message to the user.
                             Exception e = task.getException();
-                            Log.w(TAG, "createUserWithEmail:failure", e);
                             Toast.makeText(LoginActivity.this, "Registration failed: " + e.getLocalizedMessage(),
                                     Toast.LENGTH_LONG).show();
                         }

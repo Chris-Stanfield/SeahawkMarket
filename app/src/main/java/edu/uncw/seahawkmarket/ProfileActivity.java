@@ -88,7 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {     // A custom profile image only loads if the user has created one. Other wise a default image
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         profileImageFile = document.get("profileImageFile").toString();      // profileImageFile = the name of the profile image file
                         StorageReference gsReference = storage.getReferenceFromUrl("gs://seahawk-market.appspot.com/images/" + profileImageFile);  // Gets the fu
                         gsReference.getBytes(1024*1024*10).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -100,10 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
                         });
                     } else {
                         profileImage.setImageDrawable(getResources().getDrawable(R.drawable.default_cardview_image));
-                        Log.d(TAG, "No such document");
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
@@ -124,7 +120,6 @@ public class ProfileActivity extends AppCompatActivity {
         users = new ArrayList<String>();
         dates = new ArrayList<Date>();
         imageFiles = new ArrayList<String>();
-        Log.d(TAG, "Array Lists created");
 
         //Pass the newly created arrays to the adapter made for the card views
         final CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(titles, descriptions, prices, users, dates, imageFiles);
@@ -135,7 +130,6 @@ public class ProfileActivity extends AppCompatActivity {
         //Set the listener that says what to do if a card is clicked
         adapter.setListener(new CaptionedImagesAdapter.Listener() {
             public void onClick(int position) {
-                Log.d(TAG, "Card selected. Item = " + titles.get(position));
                 Intent intent = new Intent(ProfileActivity.this, ItemDetailsActivity.class);
                 intent.putExtra(ItemDetailsActivity.TITLE, titles.get(position));
                 intent.putExtra(ItemDetailsActivity.DESCRIPTION, descriptions.get(position));
@@ -150,16 +144,12 @@ public class ProfileActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.d(TAG, "Successfully accessed collection!");
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             //Create an item object with the document
                             ItemForSale item = document.toObject(ItemForSale.class);
-                            Log.d(TAG, "Document item = " + item);
-                            Log.d(TAG, "Item email = " + item.getEmail() + ", current user email = " + auth.getCurrentUser().getEmail());
 
                             //Compare the email in the doc item to the current user email
                             if (item.getEmail().equals(auth.getCurrentUser().getEmail())) {
-                                Log.d(TAG, "Item email and current user email matched!");
                                 //Add the item info to the appropriate array list
                                 titles.add(item.getTitle());
                                 descriptions.add(item.getDescription());
@@ -168,19 +158,15 @@ public class ProfileActivity extends AppCompatActivity {
                                 dates.add(item.getDatePosted());
                                 imageFiles.add(item.getImageFile());
 
-                                Log.d(TAG, "Item title: " + item.getTitle() + " added");
                             }
                         }
-                        Log.d(TAG, "Size of titles array list = " + titles.size());
-                        Log.d(TAG, "Size of descriptions array list = " + descriptions.size());
-                        Log.d(TAG, "Size of prices array list = " + prices.size());
                         adapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Failure iterating through database to get item info!");
+
                     }
                 });
     }

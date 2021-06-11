@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             //This is the one important for my search bar.
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "Search box has changed to: " + s.toString());
                 //Set up the query to search for items
                 Query query;
                 if(s.toString().isEmpty()) { //If search is empty get rid of filters and display normal recycler

@@ -67,7 +67,6 @@ public class EditActivity extends AppCompatActivity {
             docRef.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "updated document");
                     Toast.makeText(EditActivity.this, "Updated Document!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -75,7 +74,6 @@ public class EditActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "Unable to update document");
                     Toast.makeText(EditActivity.this, "Unable to update document", Toast.LENGTH_SHORT).show();
                 }
             });

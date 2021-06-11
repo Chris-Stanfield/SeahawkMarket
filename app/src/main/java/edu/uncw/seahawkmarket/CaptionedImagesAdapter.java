@@ -48,7 +48,6 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     public CaptionedImagesAdapter(ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> users, ArrayList<Date> dates, ArrayList<String> imageFile) { //This info is passed in mainActivity
         this.titles = titles;
-        Log.d(TAG, "Size of titles in CaptionedImagesAdapter = " + titles.size());
         this.descriptions = descriptions;
         this.prices = prices;
         this.users = users;
@@ -59,7 +58,6 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     @Override
     public int getItemCount() { //The number of data items
-        Log.d(TAG, "Size of titles = " + titles.size());
         return titles.size();
     }
 
