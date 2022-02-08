@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "233840945836",
+    "project_id": "seahawk-market",
+    "storage_bucket": "seahawk-market.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233840945836:android:f3e27ec4cb140b03f68d09",
+        "android_client_info": {
+          "package_name": "edu.uncw.seahawkmarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233840945836-5nimkvg1hqt34un9u4o44gsqoqmudokg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfbKkeReZrSOTttt7AamDpLyIryfLx8TM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233840945836-5nimkvg1hqt34un9u4o44gsqoqmudokg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
